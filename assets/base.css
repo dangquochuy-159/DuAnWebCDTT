@@ -1,0 +1,130 @@
+:root {
+
+    /* Heading font*/
+    --DTFontTypo_Heading: 'Montserrat', sans-serif;
+    ;
+    --font-style-header: normal;
+    --font-weight-header: 700;
+    --font-size-header: ;
+
+    /* Body font*/
+    --DTFontTypo_Body: 'Montserrat', sans-serif;
+    ;
+    --font-style-body: normal;
+    --font-weight-body: 400;
+    --font-weight-body--bold: 700;
+    --font-weight-body--bolder: 700;
+    --font-size-body: 16px;
+
+    /* Custom font*/
+    --DTFontTypo_Custom: Montserrat, sans-serif;
+    --font-style-additional: normal;
+    --font-weight-additional: 500;
+    --font-size-additional: 18;
+
+    /* Other colors */
+    --swiper-theme-color: #091a4c !important;
+    --DTPrimaryColor: #091a4c;
+    --DTSecondaryColor: #f84033;
+    --DTTertiaryColor: #f7f7f7;
+    --DTBodyBGColor: #ffffff;
+    --DTOverlayColor: rgba(242, 228, 227, 0.5);
+    /*--DTOverlayColor: rgb(255 255 255 / 50%);*/
+
+    --DTLinkColor: #f84033;
+    --DTLinkHoverColor: #091a4c;
+    --DTColor_Body: #091a4c;
+    --DTColor_Heading: #091a4c;
+    --DTColor_Border: #a9a9a9;
+
+    /* Error and alerts */
+    --DT_Error_Color: #9c0810;
+    --DT_Success_Color: #5dab0b;
+    --DT_discount_color: #5dab0b;
+    --DT_Warning_Color: #f4a123;
+    --DT_Info_Color: #091a4c;
+
+    /* Blog section */
+    --DT_Blog_Border_Radius: 0px;
+    --DT_Blog_Gutter_Width: 30px;
+    --DT_Blog_BG_Color: rgba(0, 0, 0, 0);
+    --DT_Blog_Link_Color: #091a4c;
+    --DT_Blog_Link_Hover_Color: #f84033;
+    --DT_Blog_Text_Color: #091a4c;
+    --DT_Blog_Icon_Color: #f84033;
+    --DT_Blog_Button_BG_Color: #091a4c;
+    --DT_Blog_Button_Text_Color: #ffffff;
+    --DT_Blog_Button_BG_Hover_Color: #f84033;
+    --DT_Blog_Button_Text_Hover_Color: #ffffff;
+
+    /* Overlay Style */
+    --DT_Blog_Link_Color_Overlay: #ffffff;
+    --DT_Blog_Link_Hover_Color_Overlay: #f84033;
+    --DT_Blog_Text_Color_overlay: #ffffff;
+    --DT_Blog_Icon_Color_overlay: #ffffff;
+    --DT_Blog_Button_BG_Color_overlay: #f84033;
+    --DT_Blog_Button_Text_Color_overlay: #ffffff;
+    --DT_Blog_Button_BG_Hover_Color_overlay: #091a4c;
+    --DT_Blog_Button_Text_Hover_Color_overlay: #ffffff;
+
+    /* Base Size */
+    --DTFontSizeBase: 16px;
+
+    /* Heading Size */
+    --DTFontSize_H1: 60px;
+    --DTFontSize_H2: 52px;
+    --DTFontSize_H3: 40px;
+    --DTFontSize_H4: 32px;
+    --DTFontSize_H5: 24px;
+    --DTFontSize_H6: 20px;
+
+    --DT_Heading_Line_Height: 1.2em;
+    --DT_Body_Line_Height: 1.6em;
+
+    --DTRadius: 0px;
+    --DTInputPadding: 12px 20px 12px 20px;
+
+    --DTInputBackground: #ffffff;
+    --DTform_BG: #f7f7f7;
+
+    /* Products */
+    --DT_product_bg_color: rgba(0, 0, 0, 0);
+    --DT_product_text_color: #091a4c;
+    --DT_product_title_color: #091a4c;
+    --DT_product_title_hover_color: #f84033;
+    --DT_product_vendor_color: #091a4c;
+    --DT_product_detail_padding: 25px 0px;
+
+    /* Button Style */
+    --DTPadding_Btn: 12px 40px 12px 40px;
+    --DT_Button_BG_Color: #091a4c;
+    --DT_Button_Text_Color: #ffffff;
+    --DT_Button_BG_Hover_Color: #f84033;
+    --DT_Button_border_Color: ;
+    --DT_Button_hover_border_Color: ;
+    --DT_Button_Text_Hover_Color: #ffffff;
+    --DT_Button_Border_Radius: 40px;
+    --DT_Button_border_width: 0px;
+    --DT_Button_text_transform: capitalize;
+
+    --DTContainer: 1555px;
+    --DT_Lap_Container: 1100px;
+    --DT_Tab_Container: 960px;
+
+    --DT_Container_Spacing: 5%;
+    --DTGutter_Width: 30px;
+
+    --DTBaseTransition: all 0.3s linear;
+
+    --DTboxShadowcolor: rgba(187, 187, 187, 0.5);
+    --DTboxShadowcolor_light: rgba(233, 233, 233, 0.5);
+
+    --DTboxShadow: 0 0 10px var(--DTboxShadowcolor);
+    --DTboxShadow_light: 0 0 10px var(--DTboxShadowcolor_light);
+
+    /* Gradient Option */
+    --DT_Gradient: linear-gradient(310deg, rgba(17, 189, 251, 1) 15%, rgba(33, 249, 150, 1) 85%);
+    --DT_Gradient_Hover: linear-gradient(228deg, rgba(21, 209, 252, 1) 14%, rgba(187, 48, 254, 1) 83%);
+
+    --sidebar_width: 310px;
+}
