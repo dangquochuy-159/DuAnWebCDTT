@@ -1701,230 +1701,7 @@
                     </section>
                 </header>
             </div>
-            <script type="text/javascript">
-                jQuery(document).ready(function ($) {
 
-                    "use strict";
-                    // Mobile Menu
-                    if ($(window).width() <= 1400) {
-                        var phrases = [];
-                        $('ul.secondary__nav').each(function () {
-                            var phrase = '';
-                            phrase += $(this).html();
-                            $(phrase).insertAfter("ul.dt-desktop-menu > li:last-child");
-                        });
-
-                        // Move Nav as Mobile Nav
-                        $("nav.dt-sc-flex-space-between").each(function () {
-
-                            var d = $(this).data('menu'),
-                                c = $(this).find('ul[data-menu="' + d + '"]').clone().removeClass('dt-nav'),
-                                m = $('body').find('.mobile-menu[data-menu="' + d + '"]');
-                            // To Remove animation classes
-                            $('[data-animation]', c).each(function (ix, ele) {
-                                var $classes = $(ele).attr("class"),
-                                    $animation = $(ele).attr("data-animation");
-
-                                $classes = $classes.replace($animation, '');
-                                $(ele).attr("class", $classes);
-                            });
-
-                            c.prependTo(m);
-                        });
-
-                        mobileTrigger();
-
-                        // Closing Mobile Nav
-                        $('li.close-nav').on('click', function (event) {
-                            closeMobNav();
-                        });
-
-                        $('body > .mobile-menu-overlay').on('click', function (event) {
-                            closeMobNav();
-                        });
-
-                        // Sub Menu in Mobile Menu
-                        $('.menu-item-has-children > a').on('click', function (event) {
-
-                            if ($('body').hasClass('nav-is-visible')) {
-                                event.preventDefault();
-                                var a = $(this).clone();
-                                $(this).next('.sub-menu-block').find('.see-all').html(a);
-                            }
-
-                            var selected = $(this);
-                            if (selected.next('div.sub-menu-block').hasClass('is-hidden')) {
-                                selected.addClass('selected').next('div.sub-menu-block').removeClass('is-hidden');
-                            } else {
-                                selected.removeClass('selected').next('div.sub-menu-block').addClass('is-hidden');
-                            }
-                        });
-
-                        // Go Back in Mobile Menu
-                        $('.go-back').on('click', function () {
-                            //$(this).parent('div.sub-menu-block').addClass('is-hidden');
-                            $(this).closest('.sub-menu-block').addClass('is-hidden');
-                        });
-                    }
-
-
-
-                    // Desktop Menu
-                    if ($(window).width() >= 1401) {
-
-                        jQuery('.menu-item-has-children > a').mouseenter(function (e) {
-                            var selected = $(this);
-                            if (selected.next('div.sub-menu-block').hasClass('is-hidden')) {
-                                selected.addClass('selected').next('div.sub-menu-block').removeClass('is-hidden');
-                            } else {
-                                selected.removeClass('selected').next('div.sub-menu-block').addClass('is-hidden');
-                            }
-                            thumbGallerySwiper();
-                            megaSwiper();
-
-                            e.preventDefault();
-                        }).mouseleave(function (e) {
-                            var selected = $(this);
-                            if (selected.next('div.sub-menu-block').hasClass('is-hidden')) {
-                                selected.addClass('selected').next('div.sub-menu-block').removeClass('is-hidden');
-                            } else {
-                                selected.removeClass('selected').next('div.sub-menu-block').addClass('is-hidden');
-                            }
-                            e.preventDefault();
-                        });
-
-
-                        function megaMenu() {
-                            if ($("#header .container-fluid").length) {
-                                var parentRow = $("#header .container-fluid > .row");
-                                var parentLeft = parseInt(parentRow.css("marginLeft").replace('px', ''));
-                            } else {
-                                var parentRow = $("#header .container .row");
-                                var parentLeft = parseInt(parentRow.offset().left);
-                            }
-                            var parentWidth = parentRow.width();
-
-                            $("#header .dt-sc-header-logo-sec .dt-nav li:not(.close-nav)").each(function () {
-                                var thisItem = $(this);
-                                if (thisItem.hasClass('has-mega-menu')) {
-                                    var thisItemLeft = thisItem.find('a').offset().left;
-                                    var menuLeft = parseInt(thisItemLeft - parentLeft);
-                                    thisItem.find('.sub-menu-block').css('width', parentWidth);
-                                    thisItem.find('.sub-menu-block').css('left', -menuLeft);
-                                }
-                            });
-
-                            $("#header .sticky-header-active .dt-nav li:not(.close-nav)").each(function () {
-                                var thisItem = $(this);
-                                if (thisItem.hasClass('has-mega-menu')) {
-                                    var thisItemLeft = thisItem.find('a').offset().left;
-                                    var menuLeft = parseInt(thisItemLeft - parentLeft);
-                                    thisItem.find('.sub-menu-block').css('width', parentWidth);
-                                    thisItem.find('.sub-menu-block').css('left', -menuLeft);
-                                }
-                            });
-
-                            window.setTimeout(function () {
-                                $(window).trigger('resize');
-                            }, 800);
-                        }
-
-                        var megaMenuResize = false;
-                        $(window).bind("resize", function () {
-                            if (!megaMenuResize) {
-                                megaMenu();
-                                megaMenuResize = true;
-                            }
-                        });
-                        megaMenu();
-                    }
-
-
-
-                    // Header Sticky
-
-
-                });
-
-                // TRIGGER MENU FOR BOTH CASES
-
-                function mobileTrigger() {
-                    $('.menu-trigger').on('click', function (event) {
-                        $('body').find('.mobile-menu').addClass('nav-is-visible');
-                        $('body').find('.mobile-menu-overlay').addClass('is-visible');
-                        $('body').addClass('nav-is-visible');
-                        $("ul.dt-sc-list-inline.dt-desktop-menu:nth-child(2)").remove();
-                    });
-                    $('#sticky-header-active .button_container').click(function () {
-                        $('#sticky-header-active .button_container').toggleClass('active');
-                        $('#sticky-header-active .full-menu-overlay').toggleClass('open');
-                    });
-                }
-
-                function closeMobNav() {
-                    $('body').removeClass('nav-is-visible');
-                    $('.mobile-menu-overlay').removeClass('is-visible');
-                    $('.mobile-menu').removeClass('nav-is-visible');
-                    $('.menu-item-has-children a').removeClass('selected');
-                    $('.menu-item-has-children div.sub-menu-block').addClass('is-hidden');
-                }
-
-                $(window).on('resize', function () {
-                    mobileTrigger();
-                    closeMobNav();
-                });
-
-                $(window).on('load', function () {
-                    mobileTrigger();
-                    closeMobNav();
-                });
-
-
-                $(function () {
-                    if ($(window).width() >= 1401) {
-                        $('.tabs-nav a').click(function () {
-                            $('.tabs-nav li').removeClass('active');
-                            $(this).parent().addClass('active');
-                            let currentTab = $(this).attr('href');
-                            $('.tabs-content li.dt-sc-menu-tabs').hide();
-                            $(currentTab).show();
-                            return false;
-                        });
-                    }
-                    if ($(window).width() <= 1400) {
-                        $('.mobileTabs .tabs  li').each(function () {
-                            $(this).click(function () {
-                                $(this).next('div').slideToggle(0);
-                            });
-                        })
-                    }
-                });
-
-
-
-                $(document).ready(function () {
-                    $('.dT_ProductProactiveSearch .search-box input[type=text]').focus(function () {
-                        $(this).parents('.dT_ProductProactiveSearch').addClass('show-search-tags');
-                        initSearchSwiper();
-                        thumbGallerySwiper();
-                    }).blur(function () {
-                    });
-
-                    $(".form-control").on("keyup", function () {
-                        if ($(this).val().length > 0) {
-                            $(this).parents('.dT_ProductProactiveSearch').removeClass('show-search-tags');
-                        }
-                    });
-                    $(".search-overlay").on('click', function () {
-                        $('.dT_TopStickySearchCloseBtn ').trigger('click');
-                    });
-
-                    $(".dt-wishlist-cnt").filter(function () {
-                        return $(this).text().trim() === "0";
-                    }).addClass('hidden');
-                });
-
-            </script>
 
         </div>
 
@@ -2140,38 +1917,7 @@
                 </div>
 
 
-                <script>
 
-                    $(window).on("load", function () {
-
-                        $(".btn.play").each(function (index) {
-                            $(this).on('click', function () {
-                                $(this).css('display', 'none');
-                                $(this).next('.btn.pause').css('display', 'flex');
-                                if ($(this).parents('.video-cover').hasClass('swiper-slide-active')) {
-                                    $(this).parents('.video-cover').find('video').trigger('play');
-                                }
-                            });
-                        });
-
-                        $(".btn.pause").each(function (index) {
-                            $(this).on('click', function () {
-                                $(this).css('display', 'none');
-                                $(this).prev('.btn.play').css('display', 'flex');
-                                if ($(this).parents('.video-cover').hasClass('swiper-slide-active')) {
-                                    $(this).parents('.video-cover').find('video').trigger('pause');
-                                }
-                            });
-                        });
-
-                        $('.swiper-button-next, .swiper-button-prev').on('click', function () {
-                            $(this).parents('.dt-sc-swiper-slider').find('video').trigger('pause');
-                            $(this).parents('.dt-sc-swiper-slider').find('.btn.pause').css('display', 'none');
-                            $(this).parents('.dt-sc-swiper-slider').find('.btn.play').css('display', 'flex');
-                        });
-
-                    });
-                </script>
 
             </div>
             <div id="shopify-section-template--14702872363143__32b15080-cba1-463e-9e11-d9ea9cee90f0"
@@ -6637,28 +6383,7 @@
                 </div>
 
 
-                <!-- Script-Start -->
 
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $(".gridPlay").each(function (index) {
-                            $(this).on('click', function () {
-                                $(this).css('display', 'none');
-                                $(this).next('.gridPause').css('display', 'flex');
-                                $(this).closest('.dt-sc-grid-banner').find('video').trigger('play');
-                            });
-                        });
-                        $(".gridPause").each(function (index) {
-                            $(this).on('click', function () {
-                                $(this).css('display', 'none');
-                                $(this).prev('.gridPlay').css('display', 'flex');
-                                $(this).closest('.dt-sc-grid-banner').find('video').trigger('pause');
-                            });
-                        });
-                    });
-                </script>
-
-                <!-- Script-End -->
 
             </div>
             <div id="shopify-section-template--14702872363143__9a6ee280-9229-4e6a-b2f5-8adab20eda52"
@@ -6690,11 +6415,6 @@
 
                                     </div>
                                 </div>
-
-
-
-
-
                                 <div
                                     class="dt-sc-support-block wow  fadeInRight  mask-image-0989bf0a-15ef-4db8-8efe-6a875fe3adfc text-center ">
 
@@ -6702,18 +6422,10 @@
                                     </div>
 
                                     <div class="dt-sc-support-content">
-
-
-
                                         <a href="/collections/science-fiction" class="dt-sc-btn">Kid's Story</a>
 
                                     </div>
                                 </div>
-
-
-
-
-
                                 <div
                                     class="dt-sc-support-block wow  fadeInLeft  mask-image-c694d323-02f1-4e1f-90ff-0a4048a8b893 text-center ">
 
@@ -6728,11 +6440,6 @@
 
                                     </div>
                                 </div>
-
-
-
-
-
                                 <div
                                     class="dt-sc-support-block wow  fadeInRight  mask-image-ca7b0313-27f0-45db-8bd2-d3b538dee4d0 text-center ">
 
@@ -6747,11 +6454,6 @@
 
                                     </div>
                                 </div>
-
-
-
-
-
                                 <div
                                     class="dt-sc-support-block wow  fadeInLeft  mask-image-261045d9-617e-4303-b4ad-1503b65c95b1 text-center ">
 
@@ -6759,36 +6461,18 @@
                                     </div>
 
                                     <div class="dt-sc-support-content">
-
-
-
                                         <a href="/collections/literature-and-fiction" class="dt-sc-btn">Literary
                                             Fiction</a>
-
                                     </div>
                                 </div>
-
-
-
-
-
                                 <div
                                     class="dt-sc-support-block wow  fadeInRight  mask-image-50546b5c-f7a9-4748-b84d-7b26dc5f0819 text-center ">
-
                                     <div class="dt-sc-support-icon-image">
                                     </div>
-
                                     <div class="dt-sc-support-content">
-
-
-
                                         <a href="/collections/fantasy" class="dt-sc-btn">Holy Books</a>
-
                                     </div>
                                 </div>
-
-
-
                             </div>
                         </div>
                     </div>
@@ -6804,23 +6488,11 @@
                         <div class="row  wow  ">
 
                             <div class="dt-sc-heading wow fadeIn  text-center">
-
                                 <h4 class="dt-sc-main-heading">Must Read Books</h4>
-
-
-
-
                                 <a href="/collections/literature-and-fiction" class="dt-sc-btn">Shop Now</a>
-
                             </div>
-
                             <div class="grouped-content   ">
-
                                 <div class="additional-block wow  fadeInLeft ">
-
-
-
-
                                     <div class="dt-sc-grid-banner-section">
                                         <div
                                             class="dt-sc-grid-banner overlay-style banner-1df017cf-42ef-425c-8db4-b598b337284b">
@@ -6834,37 +6506,18 @@
                     calc(100vw - 30px)" alt="" height="1223" width="600" loading="lazy">
 
                                             </div>
-
-
-
-
                                             <div class="dt-sc-grid-banner-content top-center">
                                                 <div class="dt-sc-grid-banner-inner text-center">
-
                                                     <h4 class="dt-sc-main-title">Save Upto 40%</h4>
-
-
                                                     <h6 class="dt-sc-sub-title">On Used Books</h6>
-
-
-
                                                 </div>
                                             </div>
 
 
                                         </div>
                                     </div>
-
-
-
                                 </div>
-
-
-
                                 <div class="main-block wow  fadeInRight ">
-
-
-
                                     <div data-section-id="template--14702872363143__325c20eb-4892-470a-a2c4-e172edeb67d8"
                                         data-section-type="home-product-carousel-section" data-item-per-view="4"
                                         data-laptop-screen-items="2" data-tablet-screen-items="2"
@@ -6875,17 +6528,10 @@
                                             <div id="swiper-template--14702872363143__325c20eb-4892-470a-a2c4-e172edeb67d8-slider"
                                                 class="dT_vDynamicPWrap-template--14702872363143__325c20eb-4892-470a-a2c4-e172edeb67d8 dT_vProdWrap">
                                                 <ul class="swiper-wrapper ">
-
-
-
-
                                                     <li class="swiper-slide grid-item  product-grid-item  on-sale "
                                                         id="product-6831560327303">
                                                         <div class="products">
                                                             <div class="product-container">
-
-
-
                                                                 <a href="/products/battles-of-napoleon"
                                                                     class="grid-link product-group">
 
@@ -9551,28 +9197,7 @@
                 </div>
 
 
-                <!-- Script-Start -->
 
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $(".gridPlay").each(function (index) {
-                            $(this).on('click', function () {
-                                $(this).css('display', 'none');
-                                $(this).next('.gridPause').css('display', 'flex');
-                                $(this).closest('.dt-sc-grid-banner').find('video').trigger('play');
-                            });
-                        });
-                        $(".gridPause").each(function (index) {
-                            $(this).on('click', function () {
-                                $(this).css('display', 'none');
-                                $(this).prev('.gridPlay').css('display', 'flex');
-                                $(this).closest('.dt-sc-grid-banner').find('video').trigger('pause');
-                            });
-                        });
-                    });
-                </script>
-
-                <!-- Script-End -->
 
             </div>
             <div id="shopify-section-template--14702872363143__dd70928c-85c8-4e03-8d31-855211dc86c2"
@@ -11615,28 +11240,7 @@
                 </div>
 
 
-                <!-- Script-Start -->
 
-                <script type="text/javascript">
-                    $(document).ready(function () {
-                        $(".gridPlay").each(function (index) {
-                            $(this).on('click', function () {
-                                $(this).css('display', 'none');
-                                $(this).next('.gridPause').css('display', 'flex');
-                                $(this).closest('.dt-sc-grid-banner').find('video').trigger('play');
-                            });
-                        });
-                        $(".gridPause").each(function (index) {
-                            $(this).on('click', function () {
-                                $(this).css('display', 'none');
-                                $(this).prev('.gridPlay').css('display', 'flex');
-                                $(this).closest('.dt-sc-grid-banner').find('video').trigger('pause');
-                            });
-                        });
-                    });
-                </script>
-
-                <!-- Script-End -->
 
             </div>
             <div id="shopify-section-template--14702872363143__1661151078327c1836"
@@ -12497,14 +12101,6 @@
 
                         </div>
                     </div>
-
-
-
-
-
-
-
-
                     <div class="footer__item--eddca7ad-5d3a-4206-a72a-7e683fe3c292 footer-links">
 
                         <div class="text-start">
@@ -12530,14 +12126,6 @@
 
 
                     </div>
-
-
-
-
-
-
-
-
                     <div class="footer__item--74c9596f-921b-42c2-884d-91f65dfe420b footer-links">
 
                         <div class="text-start">
@@ -12563,17 +12151,7 @@
 
 
                     </div>
-
-
-
-
-
-
                     <div class="footer__clear"></div>
-
-
-
-
                     <div class="footer__item--72f439b8-81c4-43fa-8b86-0dd9e311ff09 footer-links">
 
                         <div class="text-start">
@@ -12596,22 +12174,13 @@
 
                             </ul>
                         </div>
-
-
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
     <div class="site-footer__bottom">
-        <div class="container
-">
+        <div class="container">
             <div class="row">
                 <div class="dt-sc-flex-space-between">
 
@@ -12621,39 +12190,22 @@
                             <a href="/#" target="_blank">
                                 Design Themes
                             </a>
-
                         </p>
                     </div>
-
-
-
-
-
-
-
                     <div class=" dt-sc-list-inline footer-social-icons">
-
-
                         <ul class="dt-sc-social-icons dt-sc-list-inline footer-social-icons">
-
-
                             <li>
                                 <a class="icon-fallback-text fb hexagon" target="blank" href="#" title="Facebook">
                                     <i class="fa fa-facebook" aria-hidden="true"></i>
                                     <span class="icon__fallback-text">Facebook</span>
                                 </a>
                             </li>
-
-
                             <li>
                                 <a class="icon-fallback-text pin hexagon" target="blank" href="#" title="Pinterest">
                                     <i class="fa fa-pinterest" aria-hidden="true"></i>
                                     <span class="icon__fallback-text">Pinterest</span>
                                 </a>
                             </li>
-
-
-
                             <li>
                                 <a class="icon-fallback-text ins" target="blank" href="#" title="Instagram">
                                     <i class="fa fa-instagram" aria-hidden="true"></i>
@@ -12821,250 +12373,91 @@
     </footer>
 
     </div>
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/lazysizes.js?v=180904610732387730431668593068"
-        async="async"></script>
 
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dt-theme.js?v=95063865750111997771670853257"
-        defer="defer"></script>
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dT_main.js?v=37998924774563706451668593067"
-        defer="defer"></script>
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dT_main_app.js?v=132701455982522630871668593067"
-        defer="defer"></script>
-    <script
-        src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dT_bundle_base.js?v=52182225908805740381668593067"
-        defer="defer"></script>
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dT_bundle.js?v=110534236944808153851668593067"
-        defer="defer"></script>
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/wish_list.js?v=29748728149408339201668593069"
-        defer="defer"></script>
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/compare_list.js?v=175575092989463502671668593066"
-        defer="defer"></script>
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/isotope.pkgd.js?v=106821310135459783061668593068"
-        defer="defer"></script>
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/instafeed.js?v=94893015545130674641668593068"
-        defer="defer"></script>
+    <scrip id="AjaxQty" type="text/template">
 
-    <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/select2.min.js?v=64313252096600383151668593068"
-        defer="defer"></script>
-
-
-    <!-- /snippets/ajax-cart-template.liquid -->
-
-    <script id="CartTemplate" type="text/template">
-
-    <form action="/cart" method="post" novalidate class="cart ajaxcart">
-      <ul class="ajaxcart__inner">
-        {{#items}}
-        <li class="ajaxcart__product">
-          <div class="ajaxcart row" data-line="{{line}}">
-          <div class="item_img"><a href="{{url}}" class="ajaxcart__product-image"> <img src="{{img}}" alt=""></a> </a></div>
-          <div  class="details">
-          
-          <h6><a href="{{url}}" class="ajaxcart__product-name">{{name}}</a></h6>
-              <div class="item-desc">
-                <div class="item_dtl">
-                    {{#if variation}}
-                      <p class="ajaxcart__product-meta">{{variation}}</p>
-                    {{/if}}
-                    
-                    {{#properties}}
-                      {{#each this}}
-                        {{#if this}}
-                          <span class="ajaxcart__product-meta">{{@key}}: {{this}}</span>
-                        {{/if}}
-                      {{/each}}
-                    {{/properties}}
-                    
-                  <div class="pricing">
-                  
-                      {{#if discountsApplied}}
-                        <span class="hidden">Sale price</span>
-                        <span class="ajaxcart__price onsale"><span class="money">{{{formatPrice discountedPrice}}}</span></span>
-                        <span class="hidden">Regular price</span>
-                        <del class="ajaxcart__price"><span class="money">{{{formatPrice price}}}</span></del>
-                      {{else}}
-                        <span class="ajaxcart__price"><span class="money">{{{formatPrice price}}}</span></span>
-                      {{/if}}
-
-                    {{#if discountsApplied}}
-                      {{#each discounts}}
-                        <p class="onsale"><i class="la la-tag"></i> {{ this.discount_application.title }} (-<span class="money">{{{formatPrice this.formattedAmount }}}</span>)</p>
-                      {{/each}}
-                    {{/if}}
-                  </div>
-                </div>
-                <div class="ajaxcart__qty product-item-caption-qty">
-                  <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus quantity-increment" data-id="{{id}}" data-qty="{{itemMinus}}" data-line="{{line}}">
-                   
-                  </button>
-                  <input type="text" name="updates[]" class="ajaxcart__qty-num input-number" value="{{itemQty}}" min="0" data-id="{{id}}" data-line="{{line}}" aria-label="quantity" pattern="[0-9]*">
-                  <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--plus quantity-increment" data-id="{{id}}" data-line="{{line}}" data-qty="{{itemAdd}}">
-                    
-                  </button>                                  
-                </div>
-                <a href="#" id="changeQty" class="ajaxcart__qty-remove remove-btn close-icon" data-id="{{key}}" data-line="{{line}}" data-qty="{{itemAdd}}">
-                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 40" style="enable-background:new 0 0 40 40;" xml:space="preserve">
-<g>
-	<path d="M31.8,5.3h-6.3V3.5c0-1.2-1-2.3-2.3-2.3h-6.4c-1.2,0-2.3,1-2.3,2.3v1.8H8.2C6.5,5.3,5,6.7,5,8.5v3.1c0,0.4,0.3,0.8,0.8,0.8
-		h1.6v23.3c0,1.8,1.4,3.2,3.2,3.2h18.9c1.8,0,3.2-1.4,3.2-3.2V12.3h1.6c0.4,0,0.8-0.3,0.8-0.8V8.5C35,6.7,33.5,5.3,31.8,5.3z
-		 M16,3.5c0-0.4,0.3-0.8,0.8-0.8h6.4C23.6,2.7,24,3,24,3.5v1.8H16V3.5z M31.1,35.6c0,0.9-0.7,1.7-1.7,1.7H10.5
-		c-0.9,0-1.7-0.7-1.7-1.7V12.3h22.3V35.6z M33.5,10.8H6.5V8.5c0-0.9,0.7-1.7,1.7-1.7h23.6c0.9,0,1.7,0.7,1.7,1.7L33.5,10.8
-		L33.5,10.8z"></path>
-	<path d="M26.1,32.7c0.3,0,0.6-0.3,0.6-0.6V17.9c0-0.3-0.3-0.6-0.6-0.6c-0.3,0-0.6,0.3-0.6,0.6v14.2C25.5,32.4,25.8,32.7,26.1,32.7z
-		"></path>
-	<path d="M20,32.7c0.3,0,0.6-0.3,0.6-0.6V17.9c0-0.3-0.3-0.6-0.6-0.6s-0.6,0.3-0.6,0.6v14.2C19.4,32.4,19.7,32.7,20,32.7z"></path>
-	<path d="M14,32.7c0.3,0,0.6-0.3,0.6-0.6V17.9c0-0.3-0.3-0.6-0.6-0.6c-0.3,0-0.6,0.3-0.6,0.6v14.2C13.4,32.4,13.7,32.7,14,32.7z"></path>
-</g>
-</svg>  
-    </a>
-              </div>		
-          </div>
+        <div class="ajaxcart__qty">
+            <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus icon-fallback-text" data-id="{{id}}"
+                data-qty="{{itemMinus}}">
+                <span class="icon icon-minus" aria-hidden="true"></span>
+                <span class="fallback-text">-</span>
+            </button>
+            <input type="text" class="ajaxcart__qty-num" value="{{itemQty}}" min="0" data-id="{{id}}"
+                aria-label="quantity" pattern="[0-9]*">
+            <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--plus icon-fallback-text" data-id="{{id}}"
+                data-qty="{{itemAdd}}">
+                <span class="icon icon-plus" aria-hidden="true"></span>
+                <span class="fallback-text">+</span>
+            </button>
         </div>
-        
-        </div>
-        
-        {{/items}}
-        </li>
-     <li>
-            
-           <div class="drawer-model-block-1">    
-            <a class="modal-note-trigger1"> 
-            Note  
-            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-            viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-            <path id="Auto-Pen_1_" d="M46.1,12.1l1.7-2.9c0.4-0.7,0.6-1.4,0.6-2.2l0-0.9c0-1.3-0.6-2.4-1.6-3.2l-0.4-0.2c-1.2-0.7-2.7-0.7-3.9,0
-            l-0.8,0.5c-0.7,0.4-1.2,0.9-1.6,1.6L21.2,38c-0.3,0.6-0.5,1.2-0.6,1.8L19.9,48l1.2,0.7l6.6-4.9c0.5-0.4,0.9-0.8,1.2-1.3l16.6-29.1
-            l1.9,1.1l-8.8,15.4c-0.2,0.3-0.1,0.8,0.3,1c0.1,0.1,0.2,0.1,0.4,0.1c0.3,0,0.5-0.1,0.6-0.4l9.5-16.6L46.1,12.1z M41.5,5.5
-            c0.3-0.4,0.6-0.8,1.1-1.1l0.8-0.5c0.4-0.2,0.8-0.3,1.2-0.3c0.3,0,0.6,0.1,0.8,0.2L45.7,4c0.7,0.4,1.2,1.2,1.2,2.1l0,0.9
-            c0,0.5-0.1,1-0.4,1.5l-1.7,2.9L40,8.5C39.9,8.4,41.5,5.5,41.5,5.5z M27.5,41.7c-0.2,0.4-0.5,0.7-0.8,0.9l-5.3,3.9l0.6-6.6
-            c0-0.4,0.2-0.8,0.4-1.2L39.1,9.6c0,0,5,3,5,3L27.5,41.7z"/>
-            <rect x="0.4" y="48.4" width="18.5" height="1.1"/>
+        <a href="#" id="changeQty" class="ajaxcart__qty-adjust remove-btn" data-id="{{key}}" data-line="{{line}}"
+            data-qty="{{itemAdd}}">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60"
+                style="enable-background:new 0 0 60 60;" xml:space="preserve">
+                <style type="text/css">
+                    .delete-icon {
+                        stroke: currentcolor;
+                        stroke-width: 0.25;
+                        stroke-miterlimit: 10;
+                    }
+                </style>
+                <g transform="translate(128 128) scale(0.72 0.72)">
+                    <g transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)">
+                        <path class="delete-icon" d="M15.9,19.8H7c-0.5,0-0.9-0.4-0.9-0.9V7.6c0-0.1,0-0.1,0.1-0.2l0.9-0.7c0,0,0.1,0,0.1,0h9.4
+                            c0.1,0,0.2,0.1,0.2,0.2v11.9C16.8,19.4,16.4,19.8,15.9,19.8z M6.5,7.8v11.2c0,0.3,0.2,0.5,0.5,0.5h8.9c0.3,0,0.5-0.2,0.5-0.5V7.2
+                            H7.3L6.5,7.8z" />
+
+                        <path class="delete-icon" d="M4.3,9.5c-0.1,0-0.1,0-0.2-0.1L3.4,8.5c-0.3-0.4-0.2-1,0.2-1.3l8.1-6.3c0.2-0.1,0.4-0.2,0.7-0.2
+                            c0.2,0,0.5,0.2,0.6,0.3l0.7,0.9c0,0,0.1,0.1,0,0.2c0,0.1,0,0.1-0.1,0.1L4.4,9.4C4.4,9.4,4.3,9.5,4.3,9.5z M12.2,1.1
+                            c-0.1,0-0.2,0-0.3,0.1L3.8,7.5C3.6,7.7,3.6,8,3.8,8.2l0.6,0.7L13.2,2l-0.6-0.7C12.5,1.2,12.4,1.1,12.2,1.1
+                            C12.3,1.1,12.2,1.1,12.2,1.1z" />
+                        <path class="delete-icon" d="M5.9,5.9C5.9,5.9,5.8,5.9,5.9,5.9c-0.1,0-0.1,0-0.2-0.1L5.1,5.1c-0.3-0.4-0.2-1,0.2-1.3L8,1.7
+                            c0.2-0.1,0.4-0.2,0.7-0.2c0.2,0,0.5,0.2,0.6,0.3l0.6,0.7c0.1,0.1,0.1,0.2,0,0.3L6,5.8C6,5.9,5.9,5.9,5.9,5.9z M8.5,2
+                            C8.4,2,8.3,2,8.2,2.1L5.6,4.2C5.5,4.2,5.4,4.3,5.4,4.5c0,0.1,0,0.2,0.1,0.3l0.4,0.5l3.4-2.7L8.9,2.2C8.8,2.1,8.7,2,8.5,2
+                            C8.6,2,8.5,2,8.5,2z" />
+                        <path class="delete-icon" d="M11.5,17.6c-0.1,0-0.2-0.1-0.2-0.2V9.2c0-0.1,0.1-0.2,0.2-0.2c0.1,0,0.2,0.1,0.2,0.2v8.2
+			                C11.7,17.5,11.6,17.6,11.5,17.6z" />
+                        <path class="delete-icon" d="M14,17.6c-0.1,0-0.2-0.1-0.2-0.2V9.2C13.8,9.1,13.9,9,14,9c0.1,0,0.2,0.1,0.2,0.2v8.2
+		                	C14.3,17.5,14.2,17.6,14,17.6z" />
+                        <path class="delete-icon" d="M8.9,17.6c-0.1,0-0.2-0.1-0.2-0.2V9.2C8.7,9.1,8.8,9,8.9,9C9,9,9.1,9.1,9.1,9.2v8.2C9.1,17.5,9,17.6,8.9,17.6
+		                	z" />
+                        <path class="delete-icon" d="M16.5,5.8h-4.2c-0.1,0-0.2-0.1-0.2-0.1c0-0.1,0-0.2,0.1-0.2l2.5-1.9c0.4-0.3,0.9-0.4,1.3-0.1s0.7,0.6,0.7,1.1
+                            v1.1C16.7,5.7,16.6,5.8,16.5,5.8z M12.9,5.3h3.3V4.4c0-0.3-0.2-0.6-0.5-0.7c-0.3-0.1-0.6-0.1-0.9,0.1L12.9,5.3z M14.8,3.6
+                            L14.8,3.6L14.8,3.6z" />
+                        <path class="delete-icon"
+                            d="M15.7,2.3c-0.1,0-0.1,0-0.2,0L15,2c-0.2-0.1-0.4-0.3-0.4-0.6l0-0.5c0-0.2,0.1-0.4,0.3-0.5l0.5-0.2
+                            c0.2-0.1,0.4-0.1,0.6,0.1l0.4,0.3c0.2,0.2,0.3,0.5,0.1,0.8L16.2,2C16.1,2.2,15.9,2.3,15.7,2.3z M15.7,0.6
+                            C15.7,0.6,15.7,0.6,15.7,0.6L15.7,0.6l-0.6,0.2c0,0-0.1,0.1-0.1,0.1l0,0.5c0,0.1,0,0.1,0.1,0.1l0.6,0.2c0.1,0,0.1,0,0.2-0.1
+                            l0.4-0.6c0-0.1,0-0.1,0-0.2L15.7,0.6C15.8,0.6,15.8,0.6,15.7,0.6z M15.6,0.4L15.6,0.4L15.6,0.4z" />
+                    </g>
+                </g>
             </svg>
-            </a>
-            <div class="modal-note modal-note1">          
-            <div id="cart-notes" class="item">             
-              <label class="accordion-label" for="item-one"><span class="item-heading">Special instructions for seller</span></label>
-              <div class="item-content">
-                <textarea name="note" id="note" rows="5" cols="60">{{note}}</textarea>
-              </div>
-            </div>  
-          </div>
-          
-          </div>
-               
-                             
-      </li>
-      </ul>
-  
-      <div class="ajaxcart__footer row">
-        <div class="subtotal">
-          <p class="title">Total</p>
-          <p class="subtotal-price"><span class="cart-original-total money">{{{formatPrice subTotalPrice}}}</span></p>
-        </div>
-        
-        
-        <div class="discounts">
-          {{#if cartDiscountsApplied}}
-            <p>Discount</p>
-            <ul>
-             {{#each cartDiscounts}}
-                <li><i class="la la-tag"></i> (-<span class="money">{{{formatPrice this.formattedAmount }}}</span>)</li>
-             {{/each}}
-            </ul>
-           {{/if}}
-           {{#if cartTotalSavings}}
-             <div class="cart_savings onsale">
-               <p><em>You're saving : {{ price }}</em></p>
-               <p class="cart-savings-amount"><em><span class="money">{{formatPrice cartTotalDiscounts}}</span></em></p>
+        </a>
+        </script>
+        <script id="JsQty" type="text/template">
+
+            <div class="js-qty">
+                <button type="button" class="js-qty__adjust js-qty__adjust--minus quantity-increment hide" data-id="{{id}}" data-qty="{{itemMinus}}">
+                    <span>-</span>
+                </button>
+                <input type="number" class="js-qty__num" value="{{itemQty}}" min="1" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*" name="{{inputName}}" id="{{inputId}}" >
+                <button type="button" class="js-qty__adjust js-qty__adjust--plus quantity-increment hide" data-id="{{id}}" data-qty="{{itemAdd}}">
+                <span>+</span>
+                </button>
              </div>
-           {{/if}}
-        </div>
-        <div class="total">
-          <p>Shipping, taxes, and discounts will be calculated at checkout.</p>
-        </div>
-		
-        <div class="multiple_buttons">
-        <button type="submit" class="cart__checkout dt-sc-btn" name="checkout">
-          Checkout 
-    </button>
-        
-        <a class="dt-sc-btn" href="/cart">View Cart </a>
-    </div>
-        
-      </div>
-    </form>
-  
-  </script>
-    <script id="AjaxQty" type="text/template">
+            <a href="#" id="changeQty" class="ajaxcart__qty-adjust remove-btn" data-id="{{key}}" data-line="{{line}}" data-qty="{{itemAdd}}">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
+                <style type="text/css">
+	                .delete-icon{
+                        stroke:currentcolor;
+                        stroke-width:0.25;
+                        stroke-miterlimit:10;
+                    }
+                </style>
+                <g transform="translate(128 128) scale(0.72 0.72)">
+	            <g transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)">    
 
-    <div class="ajaxcart__qty">
-      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus icon-fallback-text" data-id="{{id}}" data-qty="{{itemMinus}}">
-        <span class="icon icon-minus" aria-hidden="true"></span>
-        <span class="fallback-text">-</span>
-      </button>
-      <input type="text" class="ajaxcart__qty-num" value="{{itemQty}}" min="0" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*">
-      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--plus icon-fallback-text" data-id="{{id}}" data-qty="{{itemAdd}}">
-        <span class="icon icon-plus" aria-hidden="true"></span>
-        <span class="fallback-text">+</span>
-      </button>
-    </div>
-     <a href="#" id="changeQty" class="ajaxcart__qty-adjust remove-btn" data-id="{{key}}" data-line="{{line}}" data-qty="{{itemAdd}}">
-    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
-<style type="text/css">
-	.delete-icon{stroke:currentcolor;stroke-width:0.25;stroke-miterlimit:10;}
-</style>
-<g transform="translate(128 128) scale(0.72 0.72)">
-	<g transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)">
-		<path class="delete-icon" d="M15.9,19.8H7c-0.5,0-0.9-0.4-0.9-0.9V7.6c0-0.1,0-0.1,0.1-0.2l0.9-0.7c0,0,0.1,0,0.1,0h9.4
-			c0.1,0,0.2,0.1,0.2,0.2v11.9C16.8,19.4,16.4,19.8,15.9,19.8z M6.5,7.8v11.2c0,0.3,0.2,0.5,0.5,0.5h8.9c0.3,0,0.5-0.2,0.5-0.5V7.2
-			H7.3L6.5,7.8z"/>
-		<path class="delete-icon" d="M4.3,9.5c-0.1,0-0.1,0-0.2-0.1L3.4,8.5c-0.3-0.4-0.2-1,0.2-1.3l8.1-6.3c0.2-0.1,0.4-0.2,0.7-0.2
-			c0.2,0,0.5,0.2,0.6,0.3l0.7,0.9c0,0,0.1,0.1,0,0.2c0,0.1,0,0.1-0.1,0.1L4.4,9.4C4.4,9.4,4.3,9.5,4.3,9.5z M12.2,1.1
-			c-0.1,0-0.2,0-0.3,0.1L3.8,7.5C3.6,7.7,3.6,8,3.8,8.2l0.6,0.7L13.2,2l-0.6-0.7C12.5,1.2,12.4,1.1,12.2,1.1
-			C12.3,1.1,12.2,1.1,12.2,1.1z"/>
-		<path class="delete-icon" d="M5.9,5.9C5.9,5.9,5.8,5.9,5.9,5.9c-0.1,0-0.1,0-0.2-0.1L5.1,5.1c-0.3-0.4-0.2-1,0.2-1.3L8,1.7
-			c0.2-0.1,0.4-0.2,0.7-0.2c0.2,0,0.5,0.2,0.6,0.3l0.6,0.7c0.1,0.1,0.1,0.2,0,0.3L6,5.8C6,5.9,5.9,5.9,5.9,5.9z M8.5,2
-			C8.4,2,8.3,2,8.2,2.1L5.6,4.2C5.5,4.2,5.4,4.3,5.4,4.5c0,0.1,0,0.2,0.1,0.3l0.4,0.5l3.4-2.7L8.9,2.2C8.8,2.1,8.7,2,8.5,2
-			C8.6,2,8.5,2,8.5,2z"/>
-		<path class="delete-icon" d="M11.5,17.6c-0.1,0-0.2-0.1-0.2-0.2V9.2c0-0.1,0.1-0.2,0.2-0.2c0.1,0,0.2,0.1,0.2,0.2v8.2
-			C11.7,17.5,11.6,17.6,11.5,17.6z"/>
-		<path class="delete-icon" d="M14,17.6c-0.1,0-0.2-0.1-0.2-0.2V9.2C13.8,9.1,13.9,9,14,9c0.1,0,0.2,0.1,0.2,0.2v8.2
-			C14.3,17.5,14.2,17.6,14,17.6z"/>
-		<path class="delete-icon" d="M8.9,17.6c-0.1,0-0.2-0.1-0.2-0.2V9.2C8.7,9.1,8.8,9,8.9,9C9,9,9.1,9.1,9.1,9.2v8.2C9.1,17.5,9,17.6,8.9,17.6
-			z"/>
-		<path class="delete-icon" d="M16.5,5.8h-4.2c-0.1,0-0.2-0.1-0.2-0.1c0-0.1,0-0.2,0.1-0.2l2.5-1.9c0.4-0.3,0.9-0.4,1.3-0.1s0.7,0.6,0.7,1.1
-			v1.1C16.7,5.7,16.6,5.8,16.5,5.8z M12.9,5.3h3.3V4.4c0-0.3-0.2-0.6-0.5-0.7c-0.3-0.1-0.6-0.1-0.9,0.1L12.9,5.3z M14.8,3.6
-			L14.8,3.6L14.8,3.6z"/>
-		<path class="delete-icon" d="M15.7,2.3c-0.1,0-0.1,0-0.2,0L15,2c-0.2-0.1-0.4-0.3-0.4-0.6l0-0.5c0-0.2,0.1-0.4,0.3-0.5l0.5-0.2
-			c0.2-0.1,0.4-0.1,0.6,0.1l0.4,0.3c0.2,0.2,0.3,0.5,0.1,0.8L16.2,2C16.1,2.2,15.9,2.3,15.7,2.3z M15.7,0.6
-			C15.7,0.6,15.7,0.6,15.7,0.6L15.7,0.6l-0.6,0.2c0,0-0.1,0.1-0.1,0.1l0,0.5c0,0.1,0,0.1,0.1,0.1l0.6,0.2c0.1,0,0.1,0,0.2-0.1
-			l0.4-0.6c0-0.1,0-0.1,0-0.2L15.7,0.6C15.8,0.6,15.8,0.6,15.7,0.6z M15.6,0.4L15.6,0.4L15.6,0.4z"/>
-	</g>
-</g>
-</a>
-    </span>
-  
-  </script>
-    <script id="JsQty" type="text/template">
-
-    <div class="js-qty">
-      <button type="button" class="js-qty__adjust js-qty__adjust--minus quantity-increment hide" data-id="{{id}}" data-qty="{{itemMinus}}">
-        <span>-</span>
-      </button>
-      <input type="number" class="js-qty__num" value="{{itemQty}}" min="1" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*" name="{{inputName}}" id="{{inputId}}" >
-      <button type="button" class="js-qty__adjust js-qty__adjust--plus quantity-increment hide" data-id="{{id}}" data-qty="{{itemAdd}}">
-        <span>+</span>
-      </button>
-    </div>
-     <a href="#" id="changeQty" class="ajaxcart__qty-adjust remove-btn" data-id="{{key}}" data-line="{{line}}" data-qty="{{itemAdd}}">
-    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
-<style type="text/css">
-	.delete-icon{stroke:currentcolor;stroke-width:0.25;stroke-miterlimit:10;}
-</style>
-<g transform="translate(128 128) scale(0.72 0.72)">
-	<g transform="translate(-175.05 -175.05000000000004) scale(3.89 3.89)">
 		<path class="delete-icon" d="M15.9,19.8H7c-0.5,0-0.9-0.4-0.9-0.9V7.6c0-0.1,0-0.1,0.1-0.2l0.9-0.7c0,0,0.1,0,0.1,0h9.4
 			c0.1,0,0.2,0.1,0.2,0.2v11.9C16.8,19.4,16.4,19.8,15.9,19.8z M6.5,7.8v11.2c0,0.3,0.2,0.5,0.5,0.5h8.9c0.3,0,0.5-0.2,0.5-0.5V7.2
 			H7.3L6.5,7.8z"/>
@@ -13095,572 +12488,375 @@
     </a>
   
   </script>
+        <script
+            src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/lazysizes.js?v=180904610732387730431668593068"
+            async="async"></script>
 
+        <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dt-theme.js?v=95063865750111997771670853257"
+            defer="defer"></script>
+        <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dT_main.js?v=37998924774563706451668593067"
+            defer="defer"></script>
+        <script
+            src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dT_main_app.js?v=132701455982522630871668593067"
+            defer="defer"></script>
+        <script
+            src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dT_bundle_base.js?v=52182225908805740381668593067"
+            defer="defer"></script>
+        <script
+            src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/dT_bundle.js?v=110534236944808153851668593067"
+            defer="defer"></script>
+        <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/wish_list.js?v=29748728149408339201668593069"
+            defer="defer"></script>
+        <script
+            src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/compare_list.js?v=175575092989463502671668593066"
+            defer="defer"></script>
+        <script
+            src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/isotope.pkgd.js?v=106821310135459783061668593068"
+            defer="defer"></script>
+        <script src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/instafeed.js?v=94893015545130674641668593068"
+            defer="defer"></script>
 
+        <script
+            src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/select2.min.js?v=64313252096600383151668593068"
+            defer="defer"></script>
 
+        <div id="shopify-section-modal-newsletter" class="shopify-section dt-sc-newsletter-modal-overlay">
+            <div class="dt-sc-newsletter-container" id="dt-sc-newsletter-container" style="display:none">
+                <span class="dt-sc-newsletter-container-overlay"></span>
+                <div class="dt-sc-newsletter-modal dt-sc-overlay text-start style-2" data-image-loading-animation>
+                    <div class="dt-sc-newsletter-content">
+                        <div class="dt-sc-newsletter__logo"></div>
+                        <p style="color: #f7f7f7; color: #ffffff;">Huge Discount</p>
+                        <h2 style="color: #f7f7f7; color: #091a4c;">GET <span>10%</span> OFF</h2>
+                        <p style="color: #f7f7f7; color: #ffffff;">Subscribe now and receive a discount on your first
+                            order
+                        </p>
+                        <form method="post" action="/contact#contact_form" id="contact_form" accept-charset="UTF-8"
+                            class="newsletter-form">
+                            <input type="hidden" name="form_type" value="customer">
+                            <input type="hidden" name="utf8" value="✓">
+                            <input id="NewsletterForm--modal-newsletter" type="email" name="contact[email]"
+                                class="field__input mail" value="" aria-required="true" autocorrect="off"
+                                autocapitalize="off" autocomplete="email" placeholder="Your email address" required />
+                            <input type="hidden" name="contact[tags]" value="newsletter">
+                            <button type="submit" class="dt-sc-btn ">
+                                <span>Submit</span>
+                                <i class=" fa fa-envelope"></i>
+                            </button>
+                        </form>
 
-    <script>
-        jQuery(function ($) {
-            ajaxCart.init({
-                formSelector: '[data-product-form]',
-                cartContainer: '#CartContainer',
-                addToCartSelector: '.dT_AddToCart',
-                cartCountSelector: '.CartCount',
-                cartCostSelector: '.CartCost',
-                moneyFormat: "${{amount}}"
-            });
-        });
-
-        jQuery('body').on('ajaxCart.afterCartLoad', function (evt, cart) {
-            theme.RightDrawer.open();
-        });
-
-        jQuery('body').on('ajaxCart.afterCartLoad', function (evt, cart) {
-            $('.modal-note-trigger1').on('click', function (e) {
-                e.preventDefault();
-                $('.modal-note1').toggleClass('is-visible');
-                $('.modal-note1').slideToggle("slow");
-            });
-        });
-
-    </script>
-
-
-
-
-    <script>
-        Handlebars.registerHelper('formatPrice', function (aString) {
-            return new Handlebars.SafeString(aString);
-        });
-
-        $(document).ready(function () {
-            if ($('#shipping-calculator select').data('select2')) {
-                $("#shipping-calculator select").select2('destroy');
-            }
-
-            if ($('.dT_bundleSelector select').data('select2')) {
-                $(".dT_bundleSelector select").select2('destroy');
-            }
-
-
-            $('select').select2({ minimumResultsForSearch: Infinity, theme: "classic" });
-
-
-            if ($('.fbt-wrapper select').data('select2')) {
-                $(".fbt-wrapper select").select2('destroy');
-            }
-
-            if ($('.fbt-wrapper select').data('select2')) {
-                $(".fbt-wrapper select").select2('destroy');
-            }
-            if ($('#SortBy').data('select2')) {
-                $('#SortBy').select2({
-                    dropdownCssClass: "increasedzindexclass",
-                    theme: "classic"
-                });
-            }
-
-        });
-    </script>
-    <div id="shopify-section-modal-newsletter" class="shopify-section dt-sc-newsletter-modal-overlay">
-
-        <div class="dt-sc-newsletter-container" id="dt-sc-newsletter-container" style="display:none">
-            <span class="dt-sc-newsletter-container-overlay"></span>
-            <div class="dt-sc-newsletter-modal dt-sc-overlay text-start style-2" data-image-loading-animation>
-
-                <div class="dt-sc-newsletter-content">
-                    <div class="dt-sc-newsletter__logo">
-
+                        <p style="color: #f7f7f7; color: #091a4c;" class="dt-sc-newsletter-additional-content">
+                            Signup for exclusive updates
+                        </p>
+                        <a class="dt-sc-close-window dt-sc-btn close-icon"></a>
+                        <div class=" ">
+                            <ul class="dt-sc-social-icons ">
+                                <li>
+                                    <a class="icon-fallback-text fb hexagon" target="blank" href="#" title="Facebook">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        <span class="icon__fallback-text">Facebook</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="icon-fallback-text pin hexagon" target="blank" href="#" title="Pinterest">
+                                        <i class="fa fa-pinterest" aria-hidden="true"></i>
+                                        <span class="icon__fallback-text">Pinterest</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="icon-fallback-text ins" target="blank" href="#" title="Instagram">
+                                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                                        <span class="icon__fallback-text">Instagram</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="icon-fallback-text youtube" target="blank" href="#" title="YouTube">
+                                        <i class="fa fa-youtube" aria-hidden="true"></i>
+                                        <span class="icon__fallback-text">YouTube</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <p style="color: #f7f7f7; color: #ffffff;">Huge Discount</p>
-                    <h2 style="color: #f7f7f7; color: #091a4c;">GET <span>10%</span> OFF</h2>
-                    <p style="color: #f7f7f7; color: #ffffff;">Subscribe now and receive a discount on your first order
-                    </p>
-                    <form method="post" action="/contact#contact_form" id="contact_form" accept-charset="UTF-8"
-                        class="newsletter-form"><input type="hidden" name="form_type" value="customer" /><input
-                            type="hidden" name="utf8" value="✓" />
-
-
-                        <input id="NewsletterForm--modal-newsletter" type="email" name="contact[email]"
-                            class="field__input mail" value="" aria-required="true" autocorrect="off"
-                            autocapitalize="off" autocomplete="email" placeholder="Your email address" required>
-                        <input type="hidden" name="contact[tags]" value="newsletter">
-                        <button type="submit" class="dt-sc-btn ">
-                            <span>Submit</span><i class=" fa fa-envelope"></i>
-                        </button>
-
-                    </form>
-
-                    <p style="color: #f7f7f7; color: #091a4c;" class="dt-sc-newsletter-additional-content">Signup for
-                        exclusive updates</p>
-                    <a class="dt-sc-close-window dt-sc-btn close-icon"></a>
-
-                    <div class=" ">
-
-
-                        <ul class="dt-sc-social-icons ">
-
-
-                            <li>
-                                <a class="icon-fallback-text fb hexagon" target="blank" href="#" title="Facebook">
-                                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                                    <span class="icon__fallback-text">Facebook</span>
-                                </a>
-                            </li>
-
-
-                            <li>
-                                <a class="icon-fallback-text pin hexagon" target="blank" href="#" title="Pinterest">
-                                    <i class="fa fa-pinterest" aria-hidden="true"></i>
-                                    <span class="icon__fallback-text">Pinterest</span>
-                                </a>
-                            </li>
-
-
-
-                            <li>
-                                <a class="icon-fallback-text ins" target="blank" href="#" title="Instagram">
-                                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                                    <span class="icon__fallback-text">Instagram</span>
-                                </a>
-                            </li>
-
-
-
-                            <li>
-                                <a class="icon-fallback-text youtube" target="blank" href="#" title="YouTube">
-                                    <i class="fa fa-youtube" aria-hidden="true"></i>
-                                    <span class="icon__fallback-text">YouTube</span>
-                                </a>
-                            </li>
-
-
-
-
-
-                        </ul>
-                    </div>
-
                 </div>
-
             </div>
         </div>
 
 
 
-        <script>
-            window.addEventListener('DOMContentLoaded', () => {
-                var delay = 1000;
-                $newsletter_container = $('#dt-sc-newsletter-container');
+        </div>
+        <div id="shopify-section-customer-purchased" class="shopify-section customer-purchased">
+            <ul class="customer-who-purchased text-left">
 
-                jQuery(document).ready(function ($) {
-                    if (getCookie('NewsletterCookie') == "") {
-                        setTimeout(function () {
-                            showNewsletterPopup();
-                        }, delay);
-                    }
-                    else {
-                        $newsletter_container.css('display', 'none');
-                    };
+                <li class="product-data">
+                    <a href="/products/battles-of-napoleon">
 
-                    $('.dt-sc-close-window, .dt-sc-newsletter-container .dt-sc-newsletter-container-overlay').click(function (e) {
-                        $newsletter_container.css('opacity', '0');
-                        $newsletter_container.css('visibility', 'hidden');
-                        $newsletter_container.css('pointer-events', 'none');
-                        $('body').css('overflow-y', 'auto');
-                        $('body').css('height', 'auto');
-                        e.preventDefault();
-                        setCookie('NewsletterCookie', 'cookie-has-been-set', 1);
-                    });
+                        <img srcset="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop12.jpg?v=1669785656&width=165 165w"
+                            src="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop12.jpg?v=1669785656&width=165"
+                            sizes="(min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                            alt="Astrology Secrets" class="featured-image teaser lazyload" loading="lazy" width="960"
+                            height="1501">
 
+                        <span class="title">Astrology Secrets</span>
+                    </a>
+                    <p><span class="purchased">Someone recently bought</span>from<span class="location">Texas,
+                            US</span><span class="timing">10 minutes ago</span></p>
+                    <a href="javascript:void(0)" title="Close" class="dT_close">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                            y="0px" viewBox="0 0 100 100" xml:space="preserve">
 
-                    function showNewsletterPopup(e) {
-                        $newsletter_container.css('display', 'block');
-                        $newsletter_container.css('opacity', '1');
-                        $newsletter_container.css('visibility', 'visible');
-                        $('body').css('overflow-y', 'hidden');
-                        $('body').css('height', '100vh');
-                    }
-
-                    $('.newsletter-success button').on('click', function () {
-                        window.location.replace('https://dt-booksque.myshopify.com');
-                    });
-
-                    $('.contact-form').on('submit', function () {
-                        setCookie('NewsletterCookie', 'cookie-has-been-set', 1);
-                    });
-
-                });
-
-                function setCookie(cname, cvalue, exdays) {
-                    var d = new Date();
-                    d.setTime(d.getTime() + (1 * 24 * 60 * 60 * 1000));
-                    var expires = "expires=" + d.toGMTString();
-                    document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
-                }
-
-                function getCookie(cname) {
-                    var name = cname + "=";
-                    var ca = document.cookie.split(';');
-                    for (var i = 0; i < ca.length; i++) {
-                        var c = jQuery.trim(ca[i]);
-                        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-                    }
-                    return "";
-                }
-            });
-
-        </script>
-
-
-
-    </div>
-    <div id="shopify-section-customer-purchased" class="shopify-section customer-purchased">
-        <ul class="customer-who-purchased text-left">
-
-            <li class="product-data">
-                <a href="/products/battles-of-napoleon">
-
-                    <img srcset="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop12.jpg?v=1669785656&width=165 165w"
-                        src="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop12.jpg?v=1669785656&width=165"
-                        sizes="(min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                        alt="Astrology Secrets" class="featured-image teaser lazyload" loading="lazy" width="960"
-                        height="1501">
-
-                    <span class="title">Astrology Secrets</span>
-                </a>
-                <p><span class="purchased">Someone recently bought</span>from<span class="location">Texas,
-                        US</span><span class="timing">10 minutes ago</span></p>
-                <a href="javascript:void(0)" title="Close" class="dT_close">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        viewBox="0 0 100 100" xml:space="preserve">
-
-                        <path d="M57,50l35.2-35.2c1.9-1.9,1.9-5.1,0-7c-1.9-1.9-5.1-1.9-7,0L50,43L14.8,7.7c-1.9-1.9-5.1-1.9-7,0c-1.9,1.9-1.9,5.1,0,7
+                            <path d="M57,50l35.2-35.2c1.9-1.9,1.9-5.1,0-7c-1.9-1.9-5.1-1.9-7,0L50,43L14.8,7.7c-1.9-1.9-5.1-1.9-7,0c-1.9,1.9-1.9,5.1,0,7
 	L43,50L7.7,85.2c-1.9,1.9-1.9,5.1,0,7c1,1,2.2,1.5,3.5,1.5s2.5-0.5,3.5-1.5L50,57l35.2,35.2c1,1,2.2,1.5,3.5,1.5s2.5-0.5,3.5-1.5
 	c1.9-1.9,1.9-5.1,0-7L57,50z" />
-                    </svg>
+                        </svg>
 
-                </a>
-            </li>
+                    </a>
+                </li>
 
-            <li class="product-data">
-                <a href="/products/first-dating-i">
+                <li class="product-data">
+                    <a href="/products/first-dating-i">
 
-                    <img srcset="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop06.jpg?v=1669783143&width=165 165w"
-                        src="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop06.jpg?v=1669783143&width=165"
-                        sizes="(min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                        alt="First Dating I" class="featured-image teaser lazyload" loading="lazy" width="960"
-                        height="1501">
+                        <img srcset="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop06.jpg?v=1669783143&width=165 165w"
+                            src="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop06.jpg?v=1669783143&width=165"
+                            sizes="(min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                            alt="First Dating I" class="featured-image teaser lazyload" loading="lazy" width="960"
+                            height="1501">
 
-                    <span class="title">First Dating I</span>
-                </a>
-                <p><span class="purchased">Someone recently bought</span>from<span class="location">Newyork,
-                        US</span><span class="timing">45 minutes ago</span></p>
-                <a href="javascript:void(0)" title="Close" class="dT_close">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        viewBox="0 0 100 100" xml:space="preserve">
+                        <span class="title">First Dating I</span>
+                    </a>
+                    <p><span class="purchased">Someone recently bought</span>from<span class="location">Newyork,
+                            US</span><span class="timing">45 minutes ago</span></p>
+                    <a href="javascript:void(0)" title="Close" class="dT_close">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                            y="0px" viewBox="0 0 100 100" xml:space="preserve">
 
-                        <path d="M57,50l35.2-35.2c1.9-1.9,1.9-5.1,0-7c-1.9-1.9-5.1-1.9-7,0L50,43L14.8,7.7c-1.9-1.9-5.1-1.9-7,0c-1.9,1.9-1.9,5.1,0,7
+                            <path d="M57,50l35.2-35.2c1.9-1.9,1.9-5.1,0-7c-1.9-1.9-5.1-1.9-7,0L50,43L14.8,7.7c-1.9-1.9-5.1-1.9-7,0c-1.9,1.9-1.9,5.1,0,7
 	L43,50L7.7,85.2c-1.9,1.9-1.9,5.1,0,7c1,1,2.2,1.5,3.5,1.5s2.5-0.5,3.5-1.5L50,57l35.2,35.2c1,1,2.2,1.5,3.5,1.5s2.5-0.5,3.5-1.5
 	c1.9-1.9,1.9-5.1,0-7L57,50z" />
-                    </svg>
+                        </svg>
 
-                </a>
-            </li>
+                    </a>
+                </li>
 
-            <li class="product-data">
-                <a href="/products/friend-bear-in-the-amazon">
+                <li class="product-data">
+                    <a href="/products/friend-bear-in-the-amazon">
 
-                    <img srcset="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop13.jpg?v=1669785871&width=165 165w"
-                        src="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop13.jpg?v=1669785871&width=165"
-                        sizes="(min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
-                        alt="Friend Bear In The Amazon" class="featured-image teaser lazyload" loading="lazy"
-                        width="960" height="1501">
+                        <img srcset="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop13.jpg?v=1669785871&width=165 165w"
+                            src="//cdn.shopify.com/s/files/1/0565/7575/4375/products/shop13.jpg?v=1669785871&width=165"
+                            sizes="(min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                            alt="Friend Bear In The Amazon" class="featured-image teaser lazyload" loading="lazy"
+                            width="960" height="1501">
 
-                    <span class="title">Friend Bear In The Amazon</span>
-                </a>
-                <p><span class="purchased">Someone recently bought</span>from<span class="location">Chennai,
-                        India</span><span class="timing">19 minutes ago</span></p>
-                <a href="javascript:void(0)" title="Close" class="dT_close">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        viewBox="0 0 100 100" xml:space="preserve">
+                        <span class="title">Friend Bear In The Amazon</span>
+                    </a>
+                    <p><span class="purchased">Someone recently bought</span>from<span class="location">Chennai,
+                            India</span><span class="timing">19 minutes ago</span></p>
+                    <a href="javascript:void(0)" title="Close" class="dT_close">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                            y="0px" viewBox="0 0 100 100" xml:space="preserve">
 
-                        <path d="M57,50l35.2-35.2c1.9-1.9,1.9-5.1,0-7c-1.9-1.9-5.1-1.9-7,0L50,43L14.8,7.7c-1.9-1.9-5.1-1.9-7,0c-1.9,1.9-1.9,5.1,0,7
+                            <path d="M57,50l35.2-35.2c1.9-1.9,1.9-5.1,0-7c-1.9-1.9-5.1-1.9-7,0L50,43L14.8,7.7c-1.9-1.9-5.1-1.9-7,0c-1.9,1.9-1.9,5.1,0,7
 	L43,50L7.7,85.2c-1.9,1.9-1.9,5.1,0,7c1,1,2.2,1.5,3.5,1.5s2.5-0.5,3.5-1.5L50,57l35.2,35.2c1,1,2.2,1.5,3.5,1.5s2.5-0.5,3.5-1.5
 	c1.9-1.9,1.9-5.1,0-7L57,50z" />
-                    </svg>
+                        </svg>
 
-                </a>
-            </li>
+                    </a>
+                </li>
 
-        </ul>
-
-
-        <script type="text/javascript">
-            if ($.cookie('dT_suggested-cookie') == 'closed') {
-                $('.customer-who-purchased').remove();
-            }
-
-            $('.dT_close').bind('click', function () {
-                $('.customer-who-purchased').remove();
-                $.cookie('dT_suggested-cookie', 'closed', { expires: 1, path: '/' });
-            });
-
-            var elements = $('.customer-who-purchased li');
-            var init_element = 0;
-            var i = 0;
-            elements.removeClass('active');
-            function fadeInRandomElement() {
-                if (i % 2 == 0) {
-                    var currentItem = elements.eq(init_element);
-                    currentItem.addClass('active');
-                    setTimeout(function () {
-                        currentItem.removeClass('active')
-                    }, 4000);
-
-                    init_element++;
-                    if (elements.length == init_element) {
-                        init_element = 0;
-                    }
-                }
-                i++;
-            }
-
-            setInterval(function () {
-                fadeInRandomElement();
-            }, 3000);
-
-
-        </script>
-
-        <style type="text/css">
-            .customer-who-purchased {
-                pointer-events: none;
-                margin: 0;
-                height: 100px;
-                max-width: 500px;
-                min-width: 400px;
-                position: fixed;
-                bottom: 12px;
-                width: auto;
-                -webkit-transition: var(--DTBaseTransition);
-                transition: var(--DTBaseTransition);
-                z-index: 5;
-            }
-
-            .customer-who-purchased.text-left {
-                left: 35px;
-            }
-
-            .customer-who-purchased.text-right {
-                right: 35px;
-            }
-
-            .customer-who-purchased .product-data {
-                display: block;
-                min-height: 100px;
-                margin: 25px 10px;
-                opacity: 0;
-                padding: 15px 25px 15px 95px;
-                position: absolute;
-                bottom: -35px;
-                left: 0;
-                visibility: hidden;
-                width: auto;
-                border-radius: var(--DTRadius);
-                -webkit-transition: all cubic-bezier(.47, 1.21, .47, 1.21) .3s;
-                transition: all cubic-bezier(.47, 1.21, .47, 1.21) .3s;
-            }
-
-            .customer-who-purchased .product-data:before {
-                background-color: var(--DTBodyBGColor);
-                content: "";
-                display: block;
-                height: auto;
-                margin: -15px -25px;
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                top: 0;
-                width: auto;
-                z-index: -1;
-                border-radius: var(--DTRadius);
-                -webkit-box-shadow: 0 0 10px rgba(187, 187, 187, 0.15);
-                box-shadow: 0 0 10px rgba(187, 187, 187, 0.15);
-            }
-
-            .customer-who-purchased .product-data.active
-
-            /*   ,.customer-who-purchased .product-data:hover  */
-                {
-                pointer-events: all;
-                opacity: 1;
-                bottom: 0;
-                visibility: visible;
-            }
-
-            .customer-who-purchased .product-data p {
-                margin-bottom: 5px;
-                margin-top: 10px;
-                font-size: 16px;
-                line-height: 20px;
-            }
-
-            .customer-who-purchased .product-data p span {
-                display: inline;
-                line-height: 1.4;
-                padding: 3px;
-            }
-
-            .customer-who-purchased .product-data span.title {
-                font-size: var(--DTFontSize_H6);
-            }
-
-
-            /* .customer-who-purchased .product-data span.title,
-.customer-who-purchased .product-data p span.location {
-	font-weight: 600;
-} */
-
-            .customer-who-purchased .product-data p span.purchased {
-                padding-left: 0;
-            }
-
-            .customer-who-purchased .product-data p span.timing {
-                font-size: 14px;
-                font-weight: 300;
-                position: absolute;
-                bottom: -10px;
-                right: -10px;
-                color: var(--DTPrimaryColor);
-            }
-
-            .customer-who-purchased .product-data>a img {
-                position: absolute;
-                left: 0;
-                top: 50%;
-                width: 75px;
-                -webkit-transform: translateY(-50%);
-                transform: translateY(-50%);
-            }
-
-            .customer-who-purchased .product-data .dT_close {
-                height: 12px;
-                position: absolute;
-                right: -2px;
-                top: 10px;
-                text-align: center;
-                width: 12px;
-                pointer-events: all;
-                border-radius: var(--DTRadius);
-                -webkit-transform: translate(25%, -50%);
-                transform: translate(25%, -50%);
-            }
-
-            .customer-who-purchased .product-data .dT_close svg {
-                height: 1em;
-                margin: auto;
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                width: 1em;
-                -webkit-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
-                -webkit-transition: inherit;
-                transition: inherit;
-            }
-
-            @media (max-width: 576px) {
-                .customer-who-purchased {
-                    max-width: 90%;
-                    min-width: 90%;
-                    left: 0 !important;
-                    right: 0 !important;
-                    margin: auto;
-                }
-            }
-        </style>
+            </ul>
 
 
 
-    </div>
-    <div class="dT_LoadingOverlay dT_collectionOverlay"></div>
+        </div>
+        <div class="dT_LoadingOverlay dT_collectionOverlay"></div>
 
-    <a id="to-top" href="#dt-booksque" class="dt-sc-to-top dt-sc-btn" style="display:none">
-        <svg width="20px" height="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
-            style="enable-background:new 0 0 512 512;" xml:space="preserve">
-            <path d="M263.432,3.136c-4.16-4.171-10.914-4.179-15.085-0.019c-0.006,0.006-0.013,0.013-0.019,0.019
+        <a id="to-top" href="#dt-booksque" class="dt-sc-to-top dt-sc-btn" style="display:none">
+            <svg width="20px" height="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
+                style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                <path d="M263.432,3.136c-4.16-4.171-10.914-4.179-15.085-0.019c-0.006,0.006-0.013,0.013-0.019,0.019
              l-192,192c-4.093,4.237-3.975,10.99,0.262,15.083c4.134,3.992,10.687,3.992,14.82,0L245.213,36.416v464.917
              c0,5.891,4.776,10.667,10.667,10.667c5.891,0,10.667-4.776,10.667-10.667V36.416l173.781,173.781
              c4.093,4.237,10.845,4.355,15.083,0.262c4.237-4.093,4.354-10.845,0.262-15.083c-0.086-0.089-0.173-0.176-0.262-0.262L263.432,3.136
              z" />
-            <path d="M447.88,213.333c-2.831,0.005-5.548-1.115-7.552-3.115L255.88,25.749L71.432,210.219c-4.237,4.093-10.99,3.975-15.083-0.262
+                <path d="M447.88,213.333c-2.831,0.005-5.548-1.115-7.552-3.115L255.88,25.749L71.432,210.219c-4.237,4.093-10.99,3.975-15.083-0.262
              c-3.992-4.134-3.992-10.687,0-14.82l192-192c4.165-4.164,10.917-4.164,15.083,0l192,192c4.159,4.172,4.149,10.926-0.024,15.085
              C453.409,212.214,450.702,213.333,447.88,213.333z" />
-            <path d="M255.88,512c-5.891,0-10.667-4.776-10.667-10.667V10.667C245.213,4.776,249.989,0,255.88,0
+                <path d="M255.88,512c-5.891,0-10.667-4.776-10.667-10.667V10.667C245.213,4.776,249.989,0,255.88,0
              c5.891,0,10.667,4.776,10.667,10.667v490.667C266.546,507.224,261.771,512,255.88,512z" />
-        </svg>
-    </a>
-    <div id="shopify-section-gdpr-cookies" class="shopify-section gdpr-section">
-        <script
-            src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/gdpr-cookies.js?v=35383953563109352791670840099"
-            defer></script>
-        <div class="cookie-disclaimer right" id="cookies-banner">
-            <p>Please click Accept Cookies to continue to use the site.</p>
-            <div class="dt-sc-btn-group dt-sc-list-inline">
-                <button type="button" class="accept-cookie" onclick="handleAccept()">Accept</button>
-                <button type="button" class="decline-cookie" onclick="handleDecline()">Decline</button>
+            </svg>
+        </a>
+        <div id="shopify-section-gdpr-cookies" class="shopify-section gdpr-section">
+            <script
+                src="//cdn.shopify.com/s/files/1/0565/7575/4375/t/7/assets/gdpr-cookies.js?v=35383953563109352791670840099"
+                defer></script>
+            <div class="cookie-disclaimer right" id="cookies-banner">
+                <p>Please click Accept Cookies to continue to use the site.</p>
+                <div class="dt-sc-btn-group dt-sc-list-inline">
+                    <button type="button" class="accept-cookie" onclick="handleAccept()">Accept</button>
+                    <button type="button" class="decline-cookie" onclick="handleDecline()">Decline</button>
+                </div>
             </div>
+
+
         </div>
 
+        <!-- Begin Recently Viewed Products -->
 
-    </div>
-
-    <!-- Begin Recently Viewed Products -->
-
-    <ul hidden>
-        <li id="a11y-refresh-page-message">Choosing a selection results in a full page refresh.
-        </li>
-        <li id="a11y-new-window-message">Opens in a new window.
-        </li>
-    </ul>
+        <ul hidden>
+            <li id="a11y-refresh-page-message">Choosing a selection results in a full page refresh.
+            </li>
+            <li id="a11y-new-window-message">Opens in a new window.
+            </li>
+        </ul>
 
 
+        <script id="CartTemplate" type="text/template">
 
+        <form action="/cart" method="post" novalidate class="cart ajaxcart">
+          <ul class="ajaxcart__inner">
+            {{#items}}
+            <li class="ajaxcart__product">
+              <div class="ajaxcart row" data-line="{{line}}">
+              <div class="item_img"><a href="{{url}}" class="ajaxcart__product-image"> <img src="{{img}}" alt=""></a> </a></div>
+              <div  class="details">
+              
+              <h6><a href="{{url}}" class="ajaxcart__product-name">{{name}}</a></h6>
+                  <div class="item-desc">
+                    <div class="item_dtl">
+                        {{#if variation}}
+                          <p class="ajaxcart__product-meta">{{variation}}</p>
+                        {{/if}}
+                        
+                        {{#properties}}
+                          {{#each this}}
+                            {{#if this}}
+                              <span class="ajaxcart__product-meta">{{@key}}: {{this}}</span>
+                            {{/if}}
+                          {{/each}}
+                        {{/properties}}
+                        
+                      <div class="pricing">
+                      
+                          {{#if discountsApplied}}
+                            <span class="hidden">Sale price</span>
+                            <span class="ajaxcart__price onsale"><span class="money">{{{formatPrice discountedPrice}}}</span></span>
+                            <span class="hidden">Regular price</span>
+                            <del class="ajaxcart__price"><span class="money">{{{formatPrice price}}}</span></del>
+                          {{else}}
+                            <span class="ajaxcart__price"><span class="money">{{{formatPrice price}}}</span></span>
+                          {{/if}}
+    
+                        {{#if discountsApplied}}
+                          {{#each discounts}}
+                            <p class="onsale"><i class="la la-tag"></i> {{ this.discount_application.title }} (-<span class="money">{{{formatPrice this.formattedAmount }}}</span>)</p>
+                          {{/each}}
+                        {{/if}}
+                      </div>
+                    </div>
+                    <div class="ajaxcart__qty product-item-caption-qty">
+                      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus quantity-increment" data-id="{{id}}" data-qty="{{itemMinus}}" data-line="{{line}}">
+                       
+                      </button>
+                      <input type="text" name="updates[]" class="ajaxcart__qty-num input-number" value="{{itemQty}}" min="0" data-id="{{id}}" data-line="{{line}}" aria-label="quantity" pattern="[0-9]*">
+                      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--plus quantity-increment" data-id="{{id}}" data-line="{{line}}" data-qty="{{itemAdd}}">
+                        
+                      </button>                                  
+                    </div>
+                    <a href="#" id="changeQty" class="ajaxcart__qty-remove remove-btn close-icon" data-id="{{key}}" data-line="{{line}}" data-qty="{{itemAdd}}">
+                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 40" style="enable-background:new 0 0 40 40;" xml:space="preserve">
+    <g>
+        <path d="M31.8,5.3h-6.3V3.5c0-1.2-1-2.3-2.3-2.3h-6.4c-1.2,0-2.3,1-2.3,2.3v1.8H8.2C6.5,5.3,5,6.7,5,8.5v3.1c0,0.4,0.3,0.8,0.8,0.8
+            h1.6v23.3c0,1.8,1.4,3.2,3.2,3.2h18.9c1.8,0,3.2-1.4,3.2-3.2V12.3h1.6c0.4,0,0.8-0.3,0.8-0.8V8.5C35,6.7,33.5,5.3,31.8,5.3z
+             M16,3.5c0-0.4,0.3-0.8,0.8-0.8h6.4C23.6,2.7,24,3,24,3.5v1.8H16V3.5z M31.1,35.6c0,0.9-0.7,1.7-1.7,1.7H10.5
+            c-0.9,0-1.7-0.7-1.7-1.7V12.3h22.3V35.6z M33.5,10.8H6.5V8.5c0-0.9,0.7-1.7,1.7-1.7h23.6c0.9,0,1.7,0.7,1.7,1.7L33.5,10.8
+            L33.5,10.8z"></path>
+        <path d="M26.1,32.7c0.3,0,0.6-0.3,0.6-0.6V17.9c0-0.3-0.3-0.6-0.6-0.6c-0.3,0-0.6,0.3-0.6,0.6v14.2C25.5,32.4,25.8,32.7,26.1,32.7z
+            "></path>
+        <path d="M20,32.7c0.3,0,0.6-0.3,0.6-0.6V17.9c0-0.3-0.3-0.6-0.6-0.6s-0.6,0.3-0.6,0.6v14.2C19.4,32.4,19.7,32.7,20,32.7z"></path>
+        <path d="M14,32.7c0.3,0,0.6-0.3,0.6-0.6V17.9c0-0.3-0.3-0.6-0.6-0.6c-0.3,0-0.6,0.3-0.6,0.6v14.2C13.4,32.4,13.7,32.7,14,32.7z"></path>
+    </g>
+    </svg>  
+        </a>
+                  </div>		
+              </div>
+            </div>
+            
+            </div>
+            
+            {{/items}}
+            </li>
+         <li>
+                
+               <div class="drawer-model-block-1">    
+                <a class="modal-note-trigger1"> 
+                Note  
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                <path id="Auto-Pen_1_" d="M46.1,12.1l1.7-2.9c0.4-0.7,0.6-1.4,0.6-2.2l0-0.9c0-1.3-0.6-2.4-1.6-3.2l-0.4-0.2c-1.2-0.7-2.7-0.7-3.9,0
+                l-0.8,0.5c-0.7,0.4-1.2,0.9-1.6,1.6L21.2,38c-0.3,0.6-0.5,1.2-0.6,1.8L19.9,48l1.2,0.7l6.6-4.9c0.5-0.4,0.9-0.8,1.2-1.3l16.6-29.1
+                l1.9,1.1l-8.8,15.4c-0.2,0.3-0.1,0.8,0.3,1c0.1,0.1,0.2,0.1,0.4,0.1c0.3,0,0.5-0.1,0.6-0.4l9.5-16.6L46.1,12.1z M41.5,5.5
+                c0.3-0.4,0.6-0.8,1.1-1.1l0.8-0.5c0.4-0.2,0.8-0.3,1.2-0.3c0.3,0,0.6,0.1,0.8,0.2L45.7,4c0.7,0.4,1.2,1.2,1.2,2.1l0,0.9
+                c0,0.5-0.1,1-0.4,1.5l-1.7,2.9L40,8.5C39.9,8.4,41.5,5.5,41.5,5.5z M27.5,41.7c-0.2,0.4-0.5,0.7-0.8,0.9l-5.3,3.9l0.6-6.6
+                c0-0.4,0.2-0.8,0.4-1.2L39.1,9.6c0,0,5,3,5,3L27.5,41.7z"/>
+                <rect x="0.4" y="48.4" width="18.5" height="1.1"/>
+                </svg>
+                </a>
+                <div class="modal-note modal-note1">          
+                <div id="cart-notes" class="item">             
+                  <label class="accordion-label" for="item-one"><span class="item-heading">Special instructions for seller</span></label>
+                  <div class="item-content">
+                    <textarea name="note" id="note" rows="5" cols="60">{{note}}</textarea>
+                  </div>
+                </div>  
+              </div>
+              
+              </div>
+                   
+                                 
+          </li>
+          </ul>
+      
+          <div class="ajaxcart__footer row">
+            <div class="subtotal">
+              <p class="title">Total</p>
+              <p class="subtotal-price"><span class="cart-original-total money">{{{formatPrice subTotalPrice}}}</span></p>
+            </div>
+            
+            
+            <div class="discounts">
+              {{#if cartDiscountsApplied}}
+                <p>Discount</p>
+                <ul>
+                 {{#each cartDiscounts}}
+                    <li><i class="la la-tag"></i> (-<span class="money">{{{formatPrice this.formattedAmount }}}</span>)</li>
+                 {{/each}}
+                </ul>
+               {{/if}}
+               {{#if cartTotalSavings}}
+                 <div class="cart_savings onsale">
+                   <p><em>You're saving : {{ price }}</em></p>
+                   <p class="cart-savings-amount"><em><span class="money">{{formatPrice cartTotalDiscounts}}</span></em></p>
+                 </div>
+               {{/if}}
+            </div>
+            <div class="total">
+              <p>Shipping, taxes, and discounts will be calculated at checkout.</p>
+            </div>
+            
+            <div class="multiple_buttons">
+            <button type="submit" class="cart__checkout dt-sc-btn" name="checkout">
+              Checkout 
+        </button>
+            
+            <a class="dt-sc-btn" href="/cart">View Cart </a>
+        </div>
+            
+          </div>
+        </form>
+      
+      </script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('#toggle').click(function () {
-                $(this).toggleClass('active');
-                $('#overlay').toggleClass('open');
-            });
-
-            var onSelectedValue = $(".custom-select select option:selected").text();
-            $(".site-header__links .select-box__input").each(function (index) {
-                if ($(this).data('value') == onSelectedValue) {
-                    $(this).prop('checked', true);
-                }
-            });
-
-            $(".select-box__current input[type='radio']").click(function (e) {
-                var currencyPicked = $(".select-box__current input[type='radio']:checked").val();
-                $("form[id=currency_form] .custom-select select option").each(function () {
-                    if ($(this).val() == currencyPicked) {
-                        $(this).attr("selected", true);
-                        var result = $(this).parents('.site-header__links').find('.select-box__input').data('value');
-                        $('#currency_form').submit();
-                    }
-                    else {
-                        $(this).attr("selected", false);
-                    }
-                });
-            });
-        });
-
-    </script>
 </body>
 
 </html>
